@@ -1,60 +1,267 @@
-<x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+@extends('layouts.main')
+@section('css')
+<style>
+    /* ===== Buttons Css ===== */
+.signin-one .rounded-buttons .primary-btn {
+  background: var(--primary);
+  color: var(--white);
+  box-shadow: var(--shadow-2);
+}
+.signin-one .rounded-buttons .active.primary-btn, .signin-one .rounded-buttons .primary-btn:hover, .signin-one .rounded-buttons .primary-btn:focus {
+  background: var(--primary-dark);
+  color: var(--white);
+  box-shadow: var(--shadow-4);
+}
+.signin-one .rounded-buttons .deactive.primary-btn {
+  background: var(--gray-4);
+  color: var(--dark-3);
+  pointer-events: none;
+}
 
-        <x-validation-errors class="mb-4" />
+.signin-one .rounded-buttons .primary-btn-outline {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.signin-one .rounded-buttons .active.primary-btn-outline, .signin-one .rounded-buttons .primary-btn-outline:hover, .signin-one .rounded-buttons .primary-btn-outline:focus {
+  background: var(--primary-dark);
+  color: var(--white);
+}
+.signin-one .rounded-buttons .deactive.primary-btn-outline {
+  color: var(--dark-3);
+  border-color: var(--gray-4);
+  pointer-events: none;
+}
 
-        <form method="POST" action="{{ route('register') }}">
+/*===========================
+  SING IN SING UP css 
+===========================*/
+.signin-one {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  background-color: var(--light-2);
+}
+.signin-one .form-input {
+  margin-top: 16px;
+}
+.signin-one .form-input .main-btn {
+  width: 100%;
+}
+.signin-one .form-input .text {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--dark-3);
+}
+.signin-one .form-input .text a {
+  color: var(--primary);
+}
+.signin-one .signin-form {
+  background-color: var(--white);
+  padding: 40px;
+  border: 1px solid var(--gray-4);
+  border-radius: 8px;
+}
+.signin-one .rounded-buttons {
+  margin-top: 20px;
+}
+.signin-one .rounded-buttons .primary-btn {
+  width: 100%;
+}
+.signin-one .rounded-buttons .primary-btn-outline {
+  width: 100%;
+}
+.signin-one .form-input .help-block {
+  margin-top: 2px;
+}
+.signin-one .form-input .help-block .list-unstyled li {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--error);
+}
+.signin-one .form-input label {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dark-3);
+  margin-bottom: 8px;
+  display: inline-block;
+}
+.signin-one .form-input .input-items {
+  position: relative;
+}
+.signin-one .form-input .input-items input, .signin-one .form-input .input-items textarea {
+  width: 100%;
+  height: 44px;
+  border: 2px solid;
+  padding-left: 44px;
+  padding-right: 12px;
+  position: relative;
+  font-size: 16px;
+}
+.signin-one .form-input .input-items textarea {
+  padding-top: 8px;
+  height: 130px;
+  resize: none;
+}
+.signin-one .form-input .input-items i {
+  position: absolute;
+  top: 11px;
+  left: 13px;
+  font-size: 20px;
+  z-index: 9;
+}
+.signin-one .form-input .input-items.default input, .signin-one .form-input .input-items.default textarea {
+  border-color: var(--gray-4);
+  color: var(--dark-3);
+}
+.signin-one .form-input .input-items.default input:focus, .signin-one .form-input .input-items.default textarea:focus {
+  border-color: var(--primary);
+}
+.signin-one .form-input .input-items.default input::placeholder, .signin-one .form-input .input-items.default textarea::placeholder {
+  color: var(--dark-3);
+  opacity: 1;
+}
+.signin-one .form-input .input-items.default i {
+  color: var(--dark-3);
+}
+.signin-one .form-input .input-items.error input, .signin-one .form-input .input-items.error textarea {
+  border-color: var(--error);
+  color: var(--error);
+}
+.signin-one .form-input .input-items.error input::placeholder, .signin-one .form-input .input-items.error textarea::placeholder {
+  color: var(--error);
+  opacity: 1;
+}
+.signin-one .form-input .input-items.error i {
+  color: var(--error);
+}
+.signin-one .form-style-two .form-input .input-items input, .signin-one .form-style-two .form-input .input-items textarea {
+  border-radius: 5px;
+  padding-left: 12px;
+  padding-right: 44px;
+}
+.signin-one .form-style-two .form-input .input-items i {
+  left: auto;
+  right: 13px;
+}
+
+.signin-content .signin-title {
+  font-size: 24px;
+  line-height: 30px;
+  color: var(--black);
+}
+.signin-content .text {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--dark-3);
+  margin-top: 8px;
+}
+</style>
+@endsection
+@section('content')
+
+<!--====== SIGNIN ONE PART START ======-->
+<section class="signin-area signin-one" >
+   <div class="container" >
+      <div class="row justify-content-center">
+         <div class="col-lg-5">
+         <form method="POST" action="{{ route('register') }}">
             @csrf
-
-            <div>
-                <x-label for="name" value="{{ __('Name') }}" />
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            </div>
-
-            @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                <div class="mt-4">
-                    <x-label for="terms">
-                        <div class="flex items-center">
-                            <x-checkbox name="terms" id="terms" required />
-
-                            <div class="ml-2">
-                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Privacy Policy').'</a>',
-                                ]) !!}
-                            </div>
+               <div class="signin-form form-style-two rounded-buttons">
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="form-input">
+                           <label>Your account will be under this phone</label>
+                           <div class="input-items default">
+                              <input type="number" name="email" :value="old('email')" required  placeholder="phone" />
+                              <i class="lni lni-envelope"></i>
+                              @error('email')
+                                <div class="text text-danger">{{ $message }}</div>
+                              @enderror
+                           </div>
                         </div>
-                    </x-label>
-                </div>
-            @endif
-
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
-
-                <x-button class="ml-4">
-                    {{ __('Register') }}
-                </x-button>
-            </div>
-        </form>
-    </x-authentication-card>
-</x-guest-layout>
+                        <!-- form input -->
+                     </div>
+                     <div class="col-md-12">
+                        <div class="form-input">
+                           <label>
+                           Name will be used to personalize your experience
+                           </label>
+                           <div class="input-items default">
+                              <input type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="Name" />
+                              <i class="lni lni-user"></i>
+                              @error('name')
+                                <div class="text text-danger">{{ $message }}</div>
+                              @enderror
+                           </div>
+                        </div>
+                        <!-- form input -->
+                     </div>
+                     <div class="col-md-12">
+                        <div class="form-input">
+                           <label>Password for your account</label>
+                           <div class="input-items default">
+                              <input type="password" name="password" placeholder="Password" />
+                              <i class="lni lni-key"></i>
+                              @error('password')
+                                <div class="text text-danger">{{ $message }}</div>
+                              @enderror
+                           </div>
+                        </div>
+                        <!-- form input -->
+                     </div>
+                     <div class="col-md-12">
+                        <div class="form-input">
+                           <label>Confirm Password for your account</label>
+                           <div class="input-items default">
+                              <input type="password" name="password_confirmation" placeholder="Confirm Password" />
+                              <i class="lni lni-key"></i>
+                           </div>
+                        </div>
+                        <!-- form input -->
+                     </div>
+                     <!-- <div class="col-md-6">
+                        <div class="form-input rounded-buttons">
+                           <button
+                              class="btn primary-btn rounded-full"
+                              type="submit"
+                              >
+                           Sign In!
+                           </button>
+                        </div>
+                       
+                     </div> -->
+                     <center>
+                     <div class="col-md-6">
+                        <div class="form-input rounded-buttons">
+                           <button
+                              class="btn primary-btn-outline rounded-full"
+                              type="submit"
+                              >
+                           Sign Up
+                           </button>
+                        </div>
+                        <!-- form input -->
+                     </div>
+                     </center>
+                     <!-- <div class="col-md-12">
+                        <div class="form-input text-center">
+                           <p class="text">
+                              By signing in you agree with the
+                              <a href="javascript:void(0)">Terms and Conditions</a>
+                              and
+                              <a href="javascript:void(0)">Privacy</a>
+                           </p>
+                        </div>
+                        
+                     </div> -->
+                  </div>
+               </div>
+               <!-- signin form -->
+            </form>
+         </div>
+      </div>
+      <!-- row -->
+   </div>
+   <!-- container -->
+</section>
+<!--====== SIGNIN ONE PART ENDS ======-->
+@endsection
